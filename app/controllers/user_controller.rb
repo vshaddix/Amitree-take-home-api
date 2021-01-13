@@ -15,6 +15,10 @@ class UserController < ApplicationController
       updated_at: Time.now)
 
     if user.save
+      session = UserSessionManager.instance.create(user)
+
+      response.headers['Authorization'] = session.hash_representation
+
       render json: { data: user }, status: 201
     else
       render json: { data: null, message: "Error creating user" }, status: 400
