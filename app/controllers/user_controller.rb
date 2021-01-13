@@ -1,4 +1,6 @@
 class UserController < ApplicationController
+  skip_before_action :authenticate_request, only: :create
+
   # Route handler for GET: /user
   def index
     users = User.all
