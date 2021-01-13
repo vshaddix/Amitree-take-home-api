@@ -1,26 +1,62 @@
 class UserController < ApplicationController
   # Route handler for GET: /user
   def index
-    render json: { message: 'get all users' }, status: 200
+    users = User.all
+    render json: { data: users }, status: 200
   end
 
   # Route handler for POST: /user
   def create
-    render json: { message: 'create a user' }, status: 200
+    user = User.new(
+      email: params[:email],
+      password: params[:password],
+      name: params[:name],
+      created_at: Time.now,
+      updated_at: Time.now)
+
+    if user.save
+      render json: { data: user }, status: 201
+    else
+      render json: { data: null, message: "Error creating user" }, status: 400
+    end
   end
 
   # Route handler for PUT/PATCH: /user/:id
   def update
-    render json: { message: 'update user' }, status: 200
+    user = User.find_by(id: params[:id])
+
+    if user
+      user.update(
+        password: params[:password],
+        name: params[:name],
+        updated_at: Time.now
+      )
+      render json: { data: user }, status: 200
+    else
+      render json: { data: [], message: "No user found" }, status: 422
+    end
   end
 
   # Route handler for DELETE: /user/:id
   def destroy
-    render json: { message: 'delete user' }, status: 200
+    user = User.find_by(id: params[:id])
+
+    if user
+      user.destroy
+      render "", status: 200
+    else
+      render json: { data: [], message: "No user found" }, status: 422
+    end
   end
 
   # Route handler for GET: /user/:id
   def show
-    render json: { message: 'get single user' }, status: 200
+    user = User.find_by(id: params[:id])
+
+    if user
+      render json: { data: user }, status: 200
+    else
+      render json: { data: [], message: "No user found" }, status: 422
+    end
   end
 end
