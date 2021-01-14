@@ -9,13 +9,13 @@ class UserController < ApplicationController
 
   # Route handler for POST: /user
   def create
-    #TODO check if email exists
-    #TODO validate email
-
+    # #TODO check if email exists
+    # #TODO validate email
+    #
     referral_code_for_registration = if params[:referral_code]
                                        params[:referral_code]
                                      else
-                                       request.headers['referral_code'] ? request.headers['referral_code'] : nil
+                                       request.headers['HTTP_REFERRAL_CODE'] ? request.headers['HTTP_REFERRAL_CODE'] : nil
                                      end
 
     user = User.new(
