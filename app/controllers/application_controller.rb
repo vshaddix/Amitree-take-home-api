@@ -6,6 +6,6 @@ class ApplicationController < ActionController::API
 
   def authenticate_request
     @current_session = UserSessionManager.instance.setup_session_by_hash(request.headers['Authorization'])
-    render json: { error: 'Not Authorized' }, status: 401 unless @current_session
+    render json: { error: 'Not Authorizedddd' }, status: 401 unless @current_session
   end
 end
