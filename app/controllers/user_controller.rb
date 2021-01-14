@@ -29,11 +29,12 @@ class UserController < ApplicationController
     if user.save
       session = UserSessionManager.instance.create(user)
 
-      if referral_code_for_registration
+      if referral_code_for_registration != nil
+        inviter = User.find_by(referral_code: referral_code_for_registration)
         referral_service = ReferralService.new
 
-        referral_service.credit_newly_registered_user(user)
-        referral_service.credit_inviter(User.find_by(referral_code: referral_code_for_registration))
+        referral_service.credit_newly_registered_user(user, inviter)
+        referral_service.credit_inviter(inviter)
       end
       response.headers['Authorization'] = session.hash_representation
 
