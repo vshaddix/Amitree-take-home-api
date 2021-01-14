@@ -44,7 +44,7 @@ class ReferralService
 
           user_referral.save
 
-          names += ", " if names === ""
+          names += ", " if names != ""
           names += user_referral.referral.name
         end
 
