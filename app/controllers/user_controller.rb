@@ -9,15 +9,6 @@ class UserController < ApplicationController
 
   # Route handler for POST: /user
   def create
-    # #TODO check if email exists
-    # #TODO validate email
-    #
-    referral_code_for_registration = if params[:referral_code]
-                                       params[:referral_code]
-                                     else
-                                       request.headers['HTTP_REFERRAL_CODE'] ? request.headers['HTTP_REFERRAL_CODE'] : nil
-                                     end
-
     user = User.new(
       email: params[:email],
       password: params[:password],
@@ -26,11 +17,11 @@ class UserController < ApplicationController
       created_at: Time.now,
       updated_at: Time.now)
 
-    if user.save
+    if user.valid?
       session = UserSessionManager.instance.create(user)
 
-      if referral_code_for_registration != nil
-        inviter = User.find_by(referral_code: referral_code_for_registration)
+      if @referral_code_for_registration != nil
+        inviter = User.find_by(referral_code: @referral_code_for_registration)
         referral_service = ReferralService.new
 
         referral_service.credit_newly_registered_user(user, inviter)
@@ -40,7 +31,7 @@ class UserController < ApplicationController
 
       render json: { data: user }, status: 201
     else
-      render json: { data: null, message: "Error creating user" }, status: 400
+      render json: { data: user.errors, message: "Error creating user" }, status: 400
     end
   end
 
@@ -93,5 +84,13 @@ class UserController < ApplicationController
     referral_code = (0...8).map { (65 + rand(26)).chr }.join
 
     User.find_by(referral_code: referral_code) === nil ? referral_code : generate_user_referral_code
+  end
+
+  def extract_referral_code
+    @referral_code_for_registration = if params[:referral_code]
+                                       params[:referral_code]
+                                     else
+                                       request.headers['HTTP_REFERRAL_CODE'] ? request.headers['HTTP_REFERRAL_CODE'] : nil
+                                     end
   end
 end
