@@ -87,11 +87,15 @@ class UserController < ApplicationController
     User.find_by(referral_code: referral_code) === nil ? referral_code : generate_user_referral_code
   end
 
+  # To give more flexibility to the front end, we accept the referral_code in a parameter on in the headers.
+  # Use cases:
+  #  - user clicks the referral link and wants to look around before registering. The front-end could store it and later
+  #    send it as a header.
   def extract_referral_code
     @referral_code_for_registration = if params[:referral_code]
-                                       params[:referral_code]
-                                     else
-                                       request.headers['HTTP_REFERRAL_CODE'] ? request.headers['HTTP_REFERRAL_CODE'] : nil
-                                     end
+                                        params[:referral_code]
+                                      else
+                                        request.headers['HTTP_REFERRAL_CODE'] ? request.headers['HTTP_REFERRAL_CODE'] : nil
+                                      end
   end
 end
