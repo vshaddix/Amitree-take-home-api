@@ -17,7 +17,13 @@ class ReferralService
                       updated_at: Time.now)
 
     if user_referral.save
-      #TODO create record in the credits table.
+      inviter_credit = UserCredit.new(
+                         reason: "The registration process successfully finished!",
+                         user_id: referral.id,
+                         credit: 10,
+                         created_at: Time.now,
+                         updated_at: Time.now)
+      inviter_credit.save
     end
   end
 
@@ -27,6 +33,7 @@ class ReferralService
     user_referrals = UserReferral.where(inviter_id: user.id).where(reward_to_inviter_given: false)
 
     if user_referrals.count() === 5
+      names = ""
       ActiveRecord::Base.transaction do
 
         # This could be one sql query with UPDATE user_referral table based on inviter_id.
@@ -36,9 +43,18 @@ class ReferralService
           user_referral.updated_at = Time.now
 
           user_referral.save
+
+          names += ", " if names === ""
+          names += user_referral.referral.name
         end
 
-        #TODO create record in the credits table.
+        inviter_credit = UserCredit.new(
+                           reason: names + " have successfully finished the registration process!",
+                           user_id: user.id,
+                           credit: 10,
+                           created_at: Time.now,
+                           updated_at: Time.now)
+        inviter_credit.save
       end
     end
   end
