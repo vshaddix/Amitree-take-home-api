@@ -9,10 +9,14 @@ class UserController < ApplicationController
 
   # Route handler for POST: /user
   def create
+    #TODO check if email exists
+    #TODO validate email
+
     user = User.new(
       email: params[:email],
       password: params[:password],
       name: params[:name],
+      referral_code: generate_user_referral_code,
       created_at: Time.now,
       updated_at: Time.now)
 
@@ -64,5 +68,17 @@ class UserController < ApplicationController
     else
       render json: { data: [], message: "No user found" }, status: 422
     end
+  end
+
+  private
+
+  # We want a unique referral code for each user
+  # This is why this function can result in recursion until it finds a unique one
+  # I use a simple and yet, not so optimised approach since we are not after performance here.
+  # A possible optimisation would be to generate the code based on the email entered by the user.
+  def generate_user_referral_code
+    referral_code = (0...8).map { (65 + rand(26)).chr }.join
+
+    return User.find_by(referral_code: referral_code) === nil ? referral_code : generate_user_referral_code
   end
 end
