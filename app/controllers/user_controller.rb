@@ -4,7 +4,10 @@ class UserController < ApplicationController
   # Route handler for GET: /user
   def index
     users = User.all
-    render json: { data: users }, status: 200
+    renderer = JSONAPI::Serializable::Renderer.new
+    rendered = renderer.render(users, class: { User: UserSerializer, UserCredit: UserCreditSerializer }, include: [:user_credit])
+
+    render json: rendered, status: 200
   end
 
   # Route handler for POST: /user
@@ -29,8 +32,10 @@ class UserController < ApplicationController
         referral_service.credit_inviter(inviter)
       end
       response.headers['Authorization'] = session.hash_representation
+      renderer = JSONAPI::Serializable::Renderer.new
+      rendered = renderer.render(user, class: { User: UserSerializer, UserCredit: UserCreditSerializer }, include: [:user_credit])
 
-      render json: { data: user }, status: 201
+      render json: rendered, status: 201
     else
       render json: { data: user.errors, message: "Error creating user" }, status: 400
     end
@@ -46,7 +51,11 @@ class UserController < ApplicationController
         name: params[:name],
         updated_at: Time.now
       )
-      render json: { data: user }, status: 200
+
+      renderer = JSONAPI::Serializable::Renderer.new
+      rendered = renderer.render(user, class: { User: UserSerializer, UserCredit: UserCreditSerializer }, include: [:user_credit])
+
+      render json: rendered, status: 200
     else
       render json: { data: [], message: "No user found" }, status: 422
     end
@@ -69,7 +78,10 @@ class UserController < ApplicationController
     user = User.find_by(id: params[:id])
 
     if user
-      render json: { data: user }, status: 200
+      renderer = JSONAPI::Serializable::Renderer.new
+      rendered = renderer.render(user, class: { User: UserSerializer, UserCredit: UserCreditSerializer }, include: [:user_credit])
+
+      render json: rendered, status: 200
     else
       render json: { data: [], message: "No user found" }, status: 422
     end
