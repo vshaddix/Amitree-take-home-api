@@ -2,6 +2,17 @@
   
 Simple api for a task given by amitree.
 
+Deployment is done automatically after a commit in [`heroku`](https://frozen-gorge-25653.herokuapp.com/). 
+[Link to the api](https://frozen-gorge-25653.herokuapp.com/user).
+
+
+### Possible optimizations, refactoring and/or future ideas
+
+- global error handler with custom exceptions 
+- limit the user to see the rewards only to his referrals 
+- add more tests, way more.
+- pyramid structure of referrals, 3 levels for example. I believe it could be easily achieved with the current code base.
+
 ---
 
 ### API Documentation
@@ -169,6 +180,4 @@ The test suite is built in from rails. To execute the tests, you can simply use 
 Deployment is done automatically after a commit in [`heroku`](https://frozen-gorge-25653.herokuapp.com/). 
 
 The tests are also automatically triggered on commit in the `main` branch in [`travis-ci`](https://travis-ci.com/github/vshaddix/Amitree-take-home-api).
-
-
 
