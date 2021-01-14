@@ -14,11 +14,11 @@ before_script:
   - bundle exec rake db:schema:load
 script:
   - bundle exec rake test
-deploy:
-  provider: heroku
-  api_key:
-    secure: 63cf8f9a-ba6f-427b-9ce8-1a91354c698d
-  app: frozen-gorge-25653
-  on:
-    branch: main
-    repo: vshaddix/Amitree-take-home-api
+#deploy:
+#  provider: heroku
+#  api_key:
+#    secure: 63cf8f9a-ba6f-427b-9ce8-1a91354c698d
+#  app: frozen-gorge-25653
+#  on:
+#    branch: main
+#    repo: vshaddix/Amitree-take-home-api
