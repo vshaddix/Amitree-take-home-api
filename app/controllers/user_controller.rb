@@ -79,6 +79,6 @@ class UserController < ApplicationController
   def generate_user_referral_code
     referral_code = (0...8).map { (65 + rand(26)).chr }.join
 
-    return User.find_by(referral_code: referral_code) === nil ? referral_code : generate_user_referral_code
+    User.find_by(referral_code: referral_code) === nil ? referral_code : generate_user_referral_code
   end
 end
