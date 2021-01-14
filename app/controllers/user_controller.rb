@@ -5,7 +5,7 @@ class UserController < ApplicationController
   def index
     users = User.all
     renderer = JSONAPI::Serializable::Renderer.new
-    rendered = renderer.render(users, class: { User: UserSerializer, UserCredit: UserCreditSerializer }, include: [:user_credit])
+    rendered = renderer.render(users, class: { User: UserSerializer })
 
     render json: rendered, status: 200
   end
@@ -26,10 +26,12 @@ class UserController < ApplicationController
 
       if @referral_code_for_registration != nil
         inviter = User.find_by(referral_code: @referral_code_for_registration)
-        referral_service = ReferralService.new
+        if inviter
+          referral_service = ReferralService.new
+          referral_service.credit_newly_registered_user(user, inviter)
 
-        referral_service.credit_newly_registered_user(user, inviter)
-        referral_service.credit_inviter(inviter)
+          referral_service.credit_inviter(inviter)
+        end
       end
       response.headers['Authorization'] = session.hash_representation
       renderer = JSONAPI::Serializable::Renderer.new
