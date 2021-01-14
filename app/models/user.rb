@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
 
+  # i've read this email validator does not cover all cases. I just wanted something simple and fast
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :email, :uniqueness => true
   validates :name, :presence => true
