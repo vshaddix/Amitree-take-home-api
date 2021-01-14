@@ -21,4 +21,5 @@ deploy:
     secure: "GlOmwfNFWuH//FC7VsRTkz9yVEv8sIMFiFnrCpd34JsxRiwVptJHvATAN1vhMiCgLxCHSkJmalo5qWR4YNEzooU0UlwneU3xBrHeWJhY6kfvyf0EIjThZeQgfGZymAfy7tqgtx1umP5KQrdFmi5XdsdZFg8W+L8s517FajtPt3gXWymGTaEDX9TJMnXTJYn3jls/lyg/cnqOMQRzUwyH3hZATbV+Gu+wZFoTmur1RcMjhcTh+4cIse1PdCuVKyAynF8yHU1LhibwNda1i4/V+8Sk/FWclLn8yQ1gsWnu1PUrady4UOELWykfZg6U/ldfj3knkq/kZks014JinFPfEOOn2J+GEQQYTDFzMF/qTe+L2gYuYIa4H9SccnWuIi/BonCYM7vzBp2jvd/+i25SaGAFaqNmY6iIj2ADqA5Pkhpr4gjhefLLYWyv6RAbKMrUEOe25H9+RcbVTBNuhui+ZrUW9ddmUPNdEzdMWmHORTCv3kQM0C2U4NZRdIkmhekqAvjtl47cNQONRjYEjwJRb4SLDC2z138Q36RKWqhYBCZoniSXHx/jSyF13/daV/Z+RFtCCu94+1yEFSm3XNSrxBCXZcRny5nUAfJtGAMozbZfzxafOwybVo0+YQzbP95UZhcyn+JiiDvfN77M/0S2iNB+awPa7Ye7hCBdDXdAEZk="
   app: frozen-gorge-25653
   on:
+    branch: main
     repo: vshaddix/Amitree-take-home-api
