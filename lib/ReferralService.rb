@@ -17,13 +17,13 @@ class ReferralService
                       updated_at: Time.now)
 
     if user_referral.save
-      inviter_credit = UserCredit.new(
+      referral_credit = UserCredit.new(
                          reason: "The registration process successfully finished!",
                          user_id: referral.id,
                          credit: 10,
                          created_at: Time.now,
                          updated_at: Time.now)
-      inviter_credit.save
+      referral_credit.save
     end
   end
 

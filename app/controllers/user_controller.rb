@@ -19,6 +19,7 @@ class UserController < ApplicationController
 
     if user.valid?
       session = UserSessionManager.instance.create(user)
+      extract_referral_code
 
       if @referral_code_for_registration != nil
         inviter = User.find_by(referral_code: @referral_code_for_registration)
