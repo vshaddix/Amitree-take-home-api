@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_14_001931) do
+ActiveRecord::Schema.define(version: 2021_01_14_010116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "user_referrals", force: :cascade do |t|
+    t.bigint "referral_id", null: false
+    t.bigint "inviter_id", null: false
+    t.boolean "reward_to_inviter_given"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["inviter_id"], name: "index_user_referrals_on_inviter_id"
+    t.index ["referral_id"], name: "index_user_referrals_on_referral_id"
+  end
 
   create_table "user_sessions", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -35,5 +45,7 @@ ActiveRecord::Schema.define(version: 2021_01_14_001931) do
     t.string "referral_code"
   end
 
+  add_foreign_key "user_referrals", "users", column: "inviter_id"
+  add_foreign_key "user_referrals", "users", column: "referral_id"
   add_foreign_key "user_sessions", "users"
 end
